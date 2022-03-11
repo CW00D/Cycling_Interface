@@ -23,9 +23,6 @@ public class CyclingPortalInterfaceTestApp {
 		//MiniCyclingPortalInterface portal = new BadMiniCyclingPortal();
 		CyclingPortalInterface portal = new CyclingPortal();
 
-		assert (portal.getRaceIds().length == 0)
-				: "Innitial SocialMediaPlatform not empty as required or not returning an empty array.";
-
+		assert (portal.getRaceIds().length == 0) : "Innitial SocialMediaPlatform not empty as required or not returning an empty array.";
 	}
-
 }

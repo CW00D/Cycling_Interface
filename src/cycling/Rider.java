@@ -22,6 +22,13 @@ public class Rider{
 
     //</editor-fold>
 
+    //<editor-fold desc="_____________________________Getters And Setters_____________________________">
+    public Integer getRiderId () {
+        return riderId;
+    }
+
+    //</editor-fold>
+
     //<editor-fold desc="___________________________________Methods___________________________________">
     //deleteRider - removes rider and all of their results from the system
 

@@ -49,6 +49,10 @@ public class Stage {
     public StageState getStageState() { return stageState; }
     public StageType getStageType() { return stageType; }
 
+    public void setStageState(StageState stageState) {
+        this.stageState = stageState;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="___________________________________Methods___________________________________">

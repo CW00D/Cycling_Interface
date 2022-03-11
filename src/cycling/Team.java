@@ -26,10 +26,31 @@ public class Team {
 
     //</editor-fold>
 
+    //<editor-fold desc="_____________________________Getters And Setters_____________________________">
+    public Integer getTeamId () {
+        return teamId;
+    }
+
+    public String getTeamName () {
+        return teamName;
+    }
+
+    //</editor-fold>
+
     //<editor-fold desc="___________________________________Methods___________________________________">
     //deleteTeam
     //getRiders
+    public int[] getRiderIds () {
+        int[] idList = new int[listOfRiders.size()];
+        for (int i = 0; i < listOfRiders.size(); i++) {
+            idList[i] = (listOfRiders.get(i).getRiderId());
+        }
+        return idList;
+    }
     //addRider
+    public void addRider(Rider newRider) {
+        listOfRiders.add(newRider);
+    }
 
     //</editor-fold>
 }
