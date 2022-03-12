@@ -19,12 +19,12 @@ public class Stage {
     private LocalDateTime stageStartTime;
     //type of stage - an enum
     private StageType stageType;
-    //state of stage - might be an enum (whether waiting for results, eacing etc)
-    private StageState stageState = StageState.PREPARING_STAGE;       //this might be an enum type lets discuss. I dont really understand enums so Jake can explain.
+    //state of stage
+    private StageState stageState = StageState.PREPARING_STAGE;
     //stage rider results
     private ArrayList<LocalDateTime> riderResults = new ArrayList<LocalDateTime>();
     //stage segments
-    private ArrayList<Segment> stageSegments = new ArrayList<Segment>();//split to 2 segments
+    private ArrayList<Segment> stageSegments = new ArrayList<Segment>();
 
     //</editor-fold>
 
@@ -56,14 +56,14 @@ public class Stage {
     //</editor-fold>
 
     //<editor-fold desc="___________________________________Methods___________________________________">
-    //getLength
     //deleteStage
-    //addSegment - adds a climb segment or a sprint segment to a stage
+
+    //adds a climb segment or a sprint segment to a stage
     public void addSegment(Segment newSegment) {
         stageSegments.add(newSegment);
     }
-    //setState
-    //getSegments - returns the list of segment ids ordered from first to last according to location in stage
+
+    //returns the list of segment ids ordered from first to last according to location in stage
     public int[] getSegmentIds() {
         int[] idList =  new int[stageSegments.size()];
         for (int i=0; i<stageSegments.size(); i++){
@@ -71,7 +71,6 @@ public class Stage {
         }
         return idList;
     }
-    //recordResult - adds a rider and their time into the riderResults
 
     //</editor-fold>
 

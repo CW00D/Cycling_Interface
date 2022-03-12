@@ -56,6 +56,7 @@ public class CyclingPortalInterfaceTestApp {
 		// addStageToRace
 		LocalDateTime testStageTime = LocalDateTime.of(2022,03,25,12,0,0);
 		int testStageId = portal.addStageToRace(testRaceId, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
+		// int testStageId2 = portal.addStageToRace(testRaceId, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
 		/* InvalidLengthException
 		portal.addStageToRace(testRaceId, "testStage","first stage of test race",4.5, testStageTime,StageType.FLAT);
 		 */
@@ -89,17 +90,5 @@ public class CyclingPortalInterfaceTestApp {
 		for(int i = 0; i<testSegmentIds.length; i++){System.out.println("Stage "+i+"'s segment Id: "+testSegmentIds[i]);}
 
 
-		//finding relevant stage for the given id
-		Stage stageForGivenId = null;
-		for (int i=0; i<raceList.size(); i++){
-			int[] stageIds = raceList.get(i).getStageIds();
-			for(int j=0; j<stageIds.length; j++) {
-				if (stageIds[j] == stageId) {
-					stageForGivenId = raceList.get(i).getListOfStages(j);
-				}
-			}
-		}
-		//Race
-		public Stage getListOfStages(int i) {return listOfStages.get(i);}
 	}
 }

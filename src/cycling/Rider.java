@@ -1,5 +1,9 @@
 package cycling;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.time.LocalTime;
+
 public class Rider{
     //<editor-fold desc="__________________________________Atributes__________________________________">
     //static instances counter
@@ -10,6 +14,8 @@ public class Rider{
     private String riderName;
     //rider's year of birth
     private Integer riderYOB;
+    //riders results maybe a double instead of a localdatetime
+    private HashMap<Integer, LocalTime[]> riderStageResults = new HashMap<Integer, LocalTime[]>();
 
     //</editor-fold>
 
@@ -31,6 +37,29 @@ public class Rider{
 
     //<editor-fold desc="___________________________________Methods___________________________________">
     //deleteRider - removes rider and all of their results from the system
+
+    //checks if a stages result is already set
+    public boolean hasResult(Stage stage){
+        return riderStageResults.containsKey(stage);
+    }
+
+    //adds a stages result to the stage results hash map
+    public void addResultToHashMap(Integer key, LocalTime[] value) {
+        riderStageResults.put(key,  value);
+    }
+
+    //returns the checkpoint times for a given stage
+    public LocalTime[] getResultsForGivenStage(Integer key){
+        if (riderStageResults.get(key) == null) {
+            return new LocalTime[0];
+        }
+        return  riderStageResults.get(key);
+    }
+
+    //removes a stage's results from the rider
+    public void removeResultsForStage(Integer key){
+        riderStageResults.remove(key);
+    }
 
     //</editor-fold>
 

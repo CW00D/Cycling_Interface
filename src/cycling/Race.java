@@ -66,5 +66,7 @@ public class Race {
         return idList;
     }
 
+    public Stage getStagesForGivenId(int i) {return listOfStages.get(i);}
+
     //</editor-fold>
 }

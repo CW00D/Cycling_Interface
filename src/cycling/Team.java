@@ -39,6 +39,7 @@ public class Team {
 
     //<editor-fold desc="___________________________________Methods___________________________________">
     //deleteTeam
+
     //getRiders
     public int[] getRiderIds () {
         int[] idList = new int[listOfRiders.size()];
@@ -47,9 +48,20 @@ public class Team {
         }
         return idList;
     }
+
     //addRider
     public void addRider(Rider newRider) {
         listOfRiders.add(newRider);
+    }
+
+    //return the rider for the given rider id
+    public Rider hasRiderWithGivenId(int riderId){
+        for (int i=0; i<listOfRiders.size(); i++){
+            if (listOfRiders.get(i).getRiderId() == riderId){
+                return listOfRiders.get(i);
+            }
+        }
+        return null;
     }
 
     //</editor-fold>
