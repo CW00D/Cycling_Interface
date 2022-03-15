@@ -27,16 +27,20 @@ public class Race {
     //</editor-fold>
 
     //<editor-fold desc="_____________________________Getters And Setters_____________________________">
-    public Integer getRaceId () {
+    public Integer getRaceId() {
         return raceId;
     }
 
-    public String getRaceName () {
+    public String getRaceName() {
         return raceName;
     }
 
-    public String getRaceDescription () {
+    public String getRaceDescription() {
         return raceDescription;
+    }
+
+    public ArrayList<Stage> getListOfStages() {
+        return listOfStages;
     }
 
     //</editor-fold>
@@ -66,7 +70,9 @@ public class Race {
         return idList;
     }
 
-    public Stage getStagesForGivenId(int i) {return listOfStages.get(i);}
+    public void removeStage(Stage stageToRemove){
+        listOfStages.remove(stageToRemove);
+    }
 
     //</editor-fold>
 }

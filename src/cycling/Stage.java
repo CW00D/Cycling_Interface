@@ -44,10 +44,18 @@ public class Stage {
     public Integer getStageId() {
         return stageId;
     }
+
     public String getStageName() { return stageName; }
+
     public double getStageLength() { return stageLength; }
+
     public StageState getStageState() { return stageState; }
+
     public StageType getStageType() { return stageType; }
+
+    public ArrayList<Segment> getStageSegments() {
+        return stageSegments;
+    }
 
     public void setStageState(StageState stageState) {
         this.stageState = stageState;
@@ -70,6 +78,11 @@ public class Stage {
             idList[i] = (stageSegments.get(i).getSegmentId());
         }
         return idList;
+    }
+
+    //removes a segment from the stage
+    public void removeSegmentFromStage(Segment segment){
+        stageSegments.remove(segment);
     }
 
     //</editor-fold>

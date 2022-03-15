@@ -33,6 +33,10 @@ public class Rider{
         return riderId;
     }
 
+    public HashMap<Integer, LocalTime[]> getRiderStageResults() {
+        return riderStageResults;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="___________________________________Methods___________________________________">

@@ -5,13 +5,10 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 /**
- * A short program to illustrate an app testing some minimal functionality of a
- * concrete implementation of the CyclingPortalInterface interface -- note you
- * will want to increase these checks, and run it on your CyclingPortal class
- * (not the BadCyclingPortal class).
+ * This is a testing interface that checks that all the functions implemented in the CyclingPortal are executing as expected
  *
  * 
- * @author Diogo Pacheco
+ * @author Christian  Wood and Jake Beeson
  * @version 1.0
  */
 public class CyclingPortalInterfaceTestApp {
@@ -21,50 +18,108 @@ public class CyclingPortalInterfaceTestApp {
 	 * 
 	 * @param args not used
 	 */
-	public static void main(String[] args) throws InvalidNameException, IllegalNameException, IDNotRecognisedException, InvalidLengthException, InvalidStageStateException, InvalidLocationException, InvalidStageTypeException {
+	public static void main(String[] args) throws DuplicatedResultException, IDNotRecognisedException, IllegalNameException, InvalidCheckpointsException, InvalidLengthException, InvalidLocationException, InvalidNameException, InvalidStageStateException, InvalidStageTypeException, NameNotRecognisedException {
+		//<editor-fold desc="________________________________Testing Setup________________________________
 		System.out.println("The system compiled and started the execution...");
-
-		//MiniCyclingPortalInterface portal = new BadMiniCyclingPortal();
 		CyclingPortalInterface portal = new CyclingPortal();
-		assert (portal.getRaceIds().length == 0) : "Initial SocialMediaPlatform not empty as required or not returning an empty array.";
-		//---------------------------------------------Testing Race Handling--------------------------------------------
+
+		System.out.println("");
+
+		//</editor-fold>
+
+		//<editor-fold desc="________________________________Testing Race_________________________________
+		System.out.println("Testing races");
+		System.out.println("---------------");
+
 		//getRaceIds
 		int[] raceIds = portal.getRaceIds();
 		System.out.println("Race Ids of races in system: ");
-		for(int i = 0; i<raceIds.length; i++){System.out.println("Race "+i+"'s Id: "+raceIds[i]);}
+		for(int i = 0; i<raceIds.length; i++){
+			System.out.println(portal.viewRaceDetails(i));
+		}
 
-		//creatRace
-		int testRaceId = portal.createRace("Test", "Testing creation of a race");
-		System.out.println("testRaceId = "+testRaceId);
-		/* InvalidNameException:
-		portal.createRace("","Testing if InvalidNameException is thrown");
-		portal.createRace("contains white space ","Testing if InvalidNameException is thrown");
-		portal.createRace("TestNameGreaterThanThirtyCharacters","Testing if InvalidNameException is thrown");
-		IllegalNameException:
-		portal.createRace("Test","Testing if IllegalNameException is thrown");
-		*/
+		System.out.println("");
+
+		//createRace
+		int testRaceId1 = portal.createRace("Test_1", "Testing creation of a race");
+		System.out.println("testRaceId1 = "+testRaceId1);
+		int testRaceId2 = portal.createRace("Test_2", "Testing creation of a race");
+		System.out.println("testRaceId1 = "+testRaceId2);
+
+		// InvalidNameException:
+		try {
+			portal.createRace("", "Testing if InvalidNameException is thrown");
+		}catch(Exception InvalidNameException){
+			System.out.println("InvalidNameException checks empty name");}
+
+		try {
+			portal.createRace("contains white space ","Testing if InvalidNameException is thrown");
+		}catch(Exception InvalidNameException){
+			System.out.println("InvalidNameException check white spaces");
+		}
+
+		try {
+			portal.createRace("TestNameGreaterThanThirtyCharacters","Testing if InvalidNameException is thrown");
+		}catch(Exception IllegalNameException){
+			System.out.println("IllegalNameException checks longer than 30 characters");
+		}
+
+		try {
+			portal.createRace("Test_2", "Testing if IllegalNameException is thrown");
+		}catch(Exception IllegalNameException){
+			System.out.println("IllegalNameException checks if name already exists");
+		}
+
+		System.out.println("");
+
+		raceIds = portal.getRaceIds();
+		System.out.println("Race Ids of races in system: ");
+		for(int i = 0; i<raceIds.length; i++){
+			System.out.println("    "+portal.viewRaceDetails(i));
+		}
+
+		System.out.println("");
+
 		// viewRaceDetails
-		String testRaceDetails = portal.viewRaceDetails(testRaceId);
+		String testRaceDetails = portal.viewRaceDetails(testRaceId1);
 		System.out.println("Race details: "+testRaceDetails);
-		/* IDNotRecognisedException
-		portal.viewRaceDetails(123456789);
-		*/
+		try {
+			portal.viewRaceDetails(123456789);
+		}catch(Exception IDNotRecognisedException){
+			System.out.println("IDNotRecognised checks if an id doesn't exist");
+		}
+
+		System.out.println("");
+
 		// ***STILL TO DO*** removeRaceById
 		// getNumberOfStages
-		int numberOfTestStages = portal.getNumberOfStages(testRaceId);
-		System.out.println("Number of stages in Test = "+numberOfTestStages);
+		int numberOfTestStages1 = portal.getNumberOfStages(testRaceId1);
+		System.out.println("Number of stages in Test = "+numberOfTestStages1);
+
 		// addStageToRace
 		LocalDateTime testStageTime = LocalDateTime.of(2022,03,25,12,0,0);
-		int testStageId = portal.addStageToRace(testRaceId, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
-		// int testStageId2 = portal.addStageToRace(testRaceId, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
+		int testStageId = portal.addStageToRace(testRaceId1, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
+		// int testStageId2 = portal.addStageToRace(testRaceId1, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
+
+		int numberOfTestStages2 = portal.getNumberOfStages(testRaceId1);
+		System.out.println("Number of stages in Test = "+numberOfTestStages2);
+
 		/* InvalidLengthException
-		portal.addStageToRace(testRaceId, "testStage","first stage of test race",4.5, testStageTime,StageType.FLAT);
+		portal.addStageToRace(testRaceId1, "testStage","first stage of test race",4.5, testStageTime,StageType.FLAT);
 		 */
 		// getRaceStages
-		int[] stagesInTestRace = portal.getRaceStages(testRaceId);
+		int[] stagesInTestRace = portal.getRaceStages(testRaceId1);
 		System.out.println("Stage Ids of stages in test race: ");
-		for(int i = 0; i<stagesInTestRace.length; i++){System.out.println("Stage "+i+"'s Id: "+stagesInTestRace[i]);}
-		//---------------------------------------------Testing stage Handling--------------------------------------------
+		for(int i = 0; i<stagesInTestRace.length; i++){System.out.println("    Stage "+i+"'s Id: "+stagesInTestRace[i]);}
+
+		System.out.println("");
+
+		//</editor-fold>
+
+
+		//<editor-fold desc="________________________________Testing Stage________________________________
+		System.out.println("Testing stages");
+		System.out.println("---------------");
 		// getStageLength *** when does stage id get added to stage list ??? - unable to find stage(two stage lists)
 		double testStageLength = portal.getStageLength(testStageId);
 		System.out.println("test stage length = "+testStageLength);
@@ -89,6 +144,7 @@ public class CyclingPortalInterfaceTestApp {
 		System.out.println("Segment Ids of segments in test segment: ");
 		for(int i = 0; i<testSegmentIds.length; i++){System.out.println("Stage "+i+"'s segment Id: "+testSegmentIds[i]);}
 
+		//</editor-fold>
 
 	}
 }

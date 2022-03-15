@@ -35,12 +35,16 @@ public class Team {
         return teamName;
     }
 
+    public ArrayList<Rider> getListOfRiders() {
+        return listOfRiders;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="___________________________________Methods___________________________________">
     //deleteTeam
 
-    //getRiders
+    //returns the ids of all the riders in the listOfRiders
     public int[] getRiderIds () {
         int[] idList = new int[listOfRiders.size()];
         for (int i = 0; i < listOfRiders.size(); i++) {
@@ -49,19 +53,14 @@ public class Team {
         return idList;
     }
 
-    //addRider
+    //adds a rider to the listOfRiders
     public void addRider(Rider newRider) {
         listOfRiders.add(newRider);
     }
 
-    //return the rider for the given rider id
-    public Rider hasRiderWithGivenId(int riderId){
-        for (int i=0; i<listOfRiders.size(); i++){
-            if (listOfRiders.get(i).getRiderId() == riderId){
-                return listOfRiders.get(i);
-            }
-        }
-        return null;
+    //removes a rider from the listOfRiders
+    public void removeRider(Rider riderToRemove){
+        listOfRiders.remove(riderToRemove);
     }
 
     //</editor-fold>
