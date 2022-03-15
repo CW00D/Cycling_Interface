@@ -572,13 +572,15 @@ public class CyclingPortal implements CyclingPortalInterface {
 
         LocalTime start = checkpointTimes[0];
         LocalTime end = checkpointTimes[checkpointTimes.length-1];
-        long numberOfSeconds = start.until(end, ChronoUnit.SECONDS);
-        long secondsInAnHour = 3600L;
-        long secondsInAMinute = 60L;
-        long hours = numberOfSeconds / secondsInAnHour;
-        long minutes = (numberOfSeconds % secondsInAnHour) / secondsInAMinute;
-        long seconds = numberOfSeconds % secondsInAMinute;
-        LocalTime elapsedTime = LocalTime.of((int)hours, (int)minutes, (int)seconds);
+        long numberOfMillis = start.until(end, ChronoUnit.MILLIS);
+        long millisInAnHour = 3600000L;
+        long millisInAMinute = 60000L;
+        long millisInASecond = 1000L;
+        long hours = numberOfMillis / millisInAnHour;
+        long minutes = (numberOfMillis % millisInAnHour) / millisInAMinute;
+        long seconds = (numberOfMillis % millisInAMinute) / millisInASecond;
+        long millis = numberOfMillis % millisInASecond;
+        LocalTime elapsedTime = LocalTime.of((int)hours, (int)minutes, (int)seconds, (int)millis);
         timesToReturn[checkpointTimes.length] = elapsedTime;
 
         return timesToReturn;
