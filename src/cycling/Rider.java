@@ -1,5 +1,6 @@
 package cycling;
 
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.LocalTime;
@@ -64,6 +65,24 @@ public class Rider{
     public void removeResultsForStage(Integer key){
         riderStageResults.remove(key);
     }
+
+    //calculates the elapsed time for a stage
+    public LocalTime getElapsedTimeForGivenStage(int stageId){
+        LocalTime start = riderStageResults.get(stageId)[0];
+        LocalTime end = riderStageResults.get(stageId)[riderStageResults.get(stageId).length-1];
+        long numberOfMillis = start.until(end, ChronoUnit.MILLIS);
+        long millisInAnHour = 3600000L;
+        long millisInAMinute = 60000L;
+        long millisInASecond = 1000L;
+        long hours = numberOfMillis / millisInAnHour;
+        long minutes = (numberOfMillis % millisInAnHour) / millisInAMinute;
+        long seconds = (numberOfMillis % millisInAMinute) / millisInASecond;
+        long millis = numberOfMillis % millisInASecond;
+        LocalTime elapsedTime = LocalTime.of((int)hours, (int)minutes, (int)seconds, (int)millis);
+        return elapsedTime;
+    }
+
+
 
     //</editor-fold>
 

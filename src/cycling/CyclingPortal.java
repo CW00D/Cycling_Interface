@@ -569,28 +569,40 @@ public class CyclingPortal implements CyclingPortalInterface {
         for(int i = 0; i < checkpointTimes.length; i++) {
             timesToReturn[i] = checkpointTimes[i];
         }
-
-        LocalTime start = checkpointTimes[0];
-        LocalTime end = checkpointTimes[checkpointTimes.length-1];
-        long numberOfMillis = start.until(end, ChronoUnit.MILLIS);
-        long millisInAnHour = 3600000L;
-        long millisInAMinute = 60000L;
-        long millisInASecond = 1000L;
-        long hours = numberOfMillis / millisInAnHour;
-        long minutes = (numberOfMillis % millisInAnHour) / millisInAMinute;
-        long seconds = (numberOfMillis % millisInAMinute) / millisInASecond;
-        long millis = numberOfMillis % millisInASecond;
-        LocalTime elapsedTime = LocalTime.of((int)hours, (int)minutes, (int)seconds, (int)millis);
-        timesToReturn[checkpointTimes.length] = elapsedTime;
-
+        timesToReturn[checkpointTimes.length] = riderForGivenId.getElapsedTimeForGivenStage(stageId);
         return timesToReturn;
     }//needs checking
 
     @Override
     public LocalTime getRiderAdjustedElapsedTimeInStage(int stageId, int riderId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
+        //finding relevant stage and rider for the given ids
+        Stage stageForGivenId = null;
+        for (Race race : raceList) {
+            for (Stage stage : race.getListOfStages()){
+                if (stage.getStageId() == stageId){
+                    stageForGivenId = stage;
+                }
+            }
+        }
+
+        Rider riderForGivenId = null;
+        for (Team team : teamList) {
+            for (Rider rider : team.getListOfRiders()){
+                if (rider.getRiderId() == riderId){
+                    riderForGivenId = rider;
+                }
+            }
+        }
+
+        //handling exception
+        if (stageForGivenId == null || riderForGivenId == null){
+            throw new IDNotRecognisedException();
+        }
+
+        //returning the adjusted elapsed time
+
         return null;
-    }
+    }//TO FINISH
 
     @Override
     public void deleteRiderResultsInStage(int stageId, int riderId) throws IDNotRecognisedException {
@@ -623,15 +635,50 @@ public class CyclingPortal implements CyclingPortalInterface {
 
     @Override
     public int[] getRidersRankInStage(int stageId) throws IDNotRecognisedException {
-        // TODO Auto-generated method stub
-        return null;
+        //finding relevant stage for the given id
+        Stage stageForGivenId = null;
+        for (Race race : raceList) {
+            for (Stage stage : race.getListOfStages()){
+                if (stage.getStageId() == stageId){
+                    stageForGivenId = stage;
+                }
+            }
+        }
+
+        //handling exception
+        if (stageForGivenId == null){
+            throw new IDNotRecognisedException();
+        }
+
+        //finding the order of riders in the given stage
+        ArrayList<Rider> riderOrderForStage = new ArrayList<>();
+        for (Team team : teamList){
+            for (Rider rider : team.getListOfRiders()){
+                if (rider.hasResult(stageForGivenId)){
+                    if (riderOrderForStage.size() == 0){
+                        riderOrderForStage.add(rider);
+                    }else{
+                        for (int i=0; i<riderOrderForStage.size();i++){
+                            if (rider.getElapsedTimeForGivenStage(stageId).compareTo(riderOrderForStage.get(i).getElapsedTimeForGivenStage(stageId))<0){
+                                riderOrderForStage.add(i, rider);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        int[] riderRanks = new int[riderOrderForStage.size()];
+        for (int i=0;i<riderOrderForStage.size();i++){
+            riderRanks[i] = riderOrderForStage.get(i).getRiderId();
+        }
+        return riderRanks;
     }
 
     @Override
     public LocalTime[] getRankedAdjustedElapsedTimesInStage(int stageId) throws IDNotRecognisedException {
         // TODO Auto-generated method stub
         return null;
-    }
+    }//TO DO
 
     @Override
     public int[] getRidersPointsInStage(int stageId) throws IDNotRecognisedException {
