@@ -1,6 +1,6 @@
 package cycling;
 
-import java.io.*;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -740,29 +740,15 @@ public class CyclingPortal implements CyclingPortalInterface {
 
     @Override
     public void saveCyclingPortal(String filename) throws IOException {
-        try (ObjectOutputStream out = new ObjectOutputStream(new
-                FileOutputStream(filename))) {
-            out.writeObject(raceList);
-            out.writeObject(teamList);
-            out.close();
-            System.out.println("Saved in: "+filename);
-        }
+        // TODO Auto-generated method stub
+
     }
 
     @Override
     public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream in = new ObjectInputStream(new
-                FileInputStream(filename))) {
-            raceList = (ArrayList<Race>)in.readObject();
-            System.out.println(raceList);
+        // TODO Auto-generated method stub
 
-            teamList = (ArrayList<Team>)in.readObject();
-            System.out.println(teamList);
-            in.close();
-
-        }
     }
-
 
     //</editor-fold>
 
