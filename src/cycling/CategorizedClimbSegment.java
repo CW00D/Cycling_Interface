@@ -1,6 +1,8 @@
 package cycling;
 
-public class CategorizedClimbSegment extends Segment{
+import java.io.Serializable;
+
+public class CategorizedClimbSegment extends Segment implements Serializable {
     //<editor-fold desc="__________________________________Atributes__________________________________">
     //segment's average gradient
     private Double segmentAverageGradient;

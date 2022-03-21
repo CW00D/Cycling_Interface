@@ -1,10 +1,11 @@
 package cycling;
 
+import java.io.Serializable;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.time.LocalTime;
 
-public class Rider{
+public class Rider implements Serializable {
     //<editor-fold desc="__________________________________Atributes__________________________________">
     //static instances counter
     private static int count = 0;

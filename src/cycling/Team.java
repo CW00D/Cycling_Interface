@@ -1,8 +1,9 @@
 package cycling;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Team {
+public class Team implements Serializable {
     //<editor-fold desc="__________________________________Atributes__________________________________">
     //static instances counter
     private static int count = 0;

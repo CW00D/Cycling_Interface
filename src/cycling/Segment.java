@@ -1,6 +1,8 @@
 package cycling;
 
-public class Segment{
+import java.io.Serializable;
+
+public class Segment implements Serializable {
     //<editor-fold desc="__________________________________Atributes__________________________________">
     //static instances counter
     private static int count = 0;
@@ -14,7 +16,7 @@ public class Segment{
     //</editor-fold>
 
     //<editor-fold desc="_________________________________Constructor_________________________________">
-    public  Segment(Double segmentLocationInStage, Enum<SegmentType> segmentType){
+    public Segment(Double segmentLocationInStage, Enum<SegmentType> segmentType){
         this.segmentLocationInStage = segmentLocationInStage;
         this.segmentType = segmentType;
         this.segmentId=count++;
