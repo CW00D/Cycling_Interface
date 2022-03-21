@@ -59,7 +59,17 @@ public class Race {
     }
 
     public void addStage (Stage newStage){
-        listOfStages.add(newStage);
+        if (listOfStages.size() == 0){
+            listOfStages.add(newStage);
+        } else if (newStage.getStageStartTime().compareTo(listOfStages.get(listOfStages.size()-1).getStageStartTime())>=0) {
+            listOfStages.add(listOfStages.size(), newStage);
+        } else {
+            for (int i = 0; i < listOfStages.size(); i++) {
+                if (newStage.getStageStartTime().compareTo(listOfStages.get(i).getStageStartTime()) == -1) {
+                    listOfStages.add(i, newStage);
+                }
+            }
+        }
     }
 
     public int[] getStageIds () {

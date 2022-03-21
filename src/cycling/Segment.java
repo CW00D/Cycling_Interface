@@ -27,10 +27,13 @@ public class Segment{
         return segmentId;
     }
 
-    //</editor-fold>
+    public Enum<SegmentType> getSegmentType() {
+        return segmentType;
+    }
 
-    //<editor-fold desc="___________________________________Methods___________________________________">
-    //deleteSegment
+    public Double getSegmentLocation(){
+        return segmentLocationInStage;
+    }
 
     //</editor-fold>
 

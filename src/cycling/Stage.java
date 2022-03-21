@@ -21,8 +21,6 @@ public class Stage {
     private StageType stageType;
     //state of stage
     private StageState stageState = StageState.PREPARING_STAGE;
-    //stage rider results
-    private ArrayList<LocalDateTime> riderResults = new ArrayList<LocalDateTime>();
     //stage segments
     private ArrayList<Segment> stageSegments = new ArrayList<Segment>();
 
@@ -57,6 +55,10 @@ public class Stage {
         return stageSegments;
     }
 
+    public LocalDateTime getStageStartTime() {
+        return stageStartTime;
+    }
+
     public void setStageState(StageState stageState) {
         this.stageState = stageState;
     }
@@ -68,7 +70,17 @@ public class Stage {
 
     //adds a climb segment or a sprint segment to a stage
     public void addSegment(Segment newSegment) {
-        stageSegments.add(newSegment);
+        if (stageSegments.size() == 0){
+            stageSegments.add(newSegment);
+        } else if (newSegment.getSegmentLocation() >= stageSegments.get(stageSegments.size()-1).getSegmentLocation()) {
+            stageSegments.add(stageSegments.size(), newSegment);
+        } else {
+            for (int i = 0; i < stageSegments.size(); i++) {
+                if (newSegment.getSegmentLocation() < stageSegments.get(i).getSegmentLocation()) {
+                    stageSegments.add(i, newSegment);
+                }
+            }
+        }
     }
 
     //returns the list of segment ids ordered from first to last according to location in stage
@@ -83,6 +95,11 @@ public class Stage {
     //removes a segment from the stage
     public void removeSegmentFromStage(Segment segment){
         stageSegments.remove(segment);
+    }
+
+    //returns the number of segments in the stage
+    public int getNumberOfSegments(){
+        return stageSegments.size();
     }
 
     //</editor-fold>

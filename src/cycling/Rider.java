@@ -1,7 +1,6 @@
 package cycling;
 
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.time.LocalTime;
 
@@ -17,6 +16,10 @@ public class Rider{
     private Integer riderYOB;
     //riders results maybe a double instead of a localdatetime
     private HashMap<Integer, LocalTime[]> riderStageResults = new HashMap<Integer, LocalTime[]>();
+    //elapsed times for each stage
+    private HashMap<Integer, LocalTime> riderStageElapsedTimes = new HashMap<Integer, LocalTime>();
+    //adjusted times for each stage
+    private HashMap<Integer, LocalTime> riderAdjustedStageElapsedTimes = new HashMap<Integer, LocalTime>();
 
     //</editor-fold>
 
@@ -49,25 +52,37 @@ public class Rider{
     }
 
     //adds a stages result to the stage results hash map
-    public void addResultToHashMap(Integer key, LocalTime[] value) {
-        riderStageResults.put(key,  value);
+    public void addResultsToHashMap(Integer stageId, LocalTime[] value) {
+        riderStageResults.put(stageId,  value);
+        riderStageElapsedTimes.put(stageId, calculateElapsedTimeForGivenStage(stageId));
+        riderAdjustedStageElapsedTimes.put(stageId,  calculateElapsedTimeForGivenStage(stageId));
+    }
+
+    //returns the elapsed time for a given stage
+    public LocalTime getElapsedTimeForGivenStage(Integer stageId){
+        return riderStageElapsedTimes.get(stageId);
     }
 
     //returns the checkpoint times for a given stage
-    public LocalTime[] getResultsForGivenStage(Integer key){
-        if (riderStageResults.get(key) == null) {
+    public LocalTime[] getResultsForGivenStage(Integer stageId) {
+        if (riderStageResults.get(stageId) == null) {
             return new LocalTime[0];
         }
-        return  riderStageResults.get(key);
+        return riderStageResults.get(stageId);
+    }
+
+    //returns the finish time for a given stage
+    public LocalTime getFinishTimeForStage(Integer stageId) {
+        return riderStageResults.get(stageId)[riderStageResults.get(stageId).length-1];
     }
 
     //removes a stage's results from the rider
-    public void removeResultsForStage(Integer key){
-        riderStageResults.remove(key);
+    public void removeResultsForStage(Integer stageId){
+        riderStageResults.remove(stageId);
     }
 
     //calculates the elapsed time for a stage
-    public LocalTime getElapsedTimeForGivenStage(int stageId){
+    public LocalTime calculateElapsedTimeForGivenStage(int stageId){
         LocalTime start = riderStageResults.get(stageId)[0];
         LocalTime end = riderStageResults.get(stageId)[riderStageResults.get(stageId).length-1];
         long numberOfMillis = start.until(end, ChronoUnit.MILLIS);
@@ -82,7 +97,18 @@ public class Rider{
         return elapsedTime;
     }
 
+    //gets the adjusted elapsed time for a stage
+    public LocalTime getAdjustedElapsedTime(int stageId){
+        return riderAdjustedStageElapsedTimes.get(stageId);
+    }
 
+    public void setAdjustedElapsedTime(int stageId, LocalTime time){
+        riderAdjustedStageElapsedTimes.replace(stageId, time);
+    }
+
+    public LocalTime getTimeForSegmentOfStage(Stage stage, Segment segment){
+        return riderStageResults.get(stage.getStageId())[stage.getStageSegments().indexOf(segment)+1];
+    }
 
     //</editor-fold>
 
