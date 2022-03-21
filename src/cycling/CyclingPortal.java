@@ -962,7 +962,22 @@ public class CyclingPortal implements CyclingPortalInterface {
             throw new IDNotRecognisedException();
         }
 
+        //calculating total points for race
+        //generates a list of riders ordered by their total elapsed times for the race
+        ArrayList<Rider> riderOrderForRace = new ArrayList<>();
+        for (Team team : teamList) {
+            for (Rider rider : team.getListOfRiders()) {
+                LocalTime totalElapsedTime = LocalTime.of(0, 0, 0, 0);
+                for (Stage stage : raceForGivenId.getListOfStages()){
+                    LocalTime elapsedTime = rider.calculateElapsedTimeForGivenStage(stage.getStageId());
+                    totalElapsedTime.plusHours(elapsedTime.getHour()).plusMinutes(elapsedTime.getMinute()).plusSeconds(elapsedTime.getSecond());//needs continuing
+                }
+            }
+        }
 
+        for (Stage stage : raceForGivenId.getListOfStages()){
+
+        }
         return null;
     }//TO DO
 
