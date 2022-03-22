@@ -21,6 +21,7 @@ public class CyclingPortal implements CyclingPortalInterface {
 
     //holds the id counters for the objects
     private ArrayList<Integer> portalIds = new ArrayList<Integer>();
+    private int change = new int;
 
 
     //</editor-fold>
