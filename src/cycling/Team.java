@@ -40,12 +40,20 @@ public class Team implements Serializable {
         return listOfRiders;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Team.count = count;
+    }
+
     //</editor-fold>
 
     //<editor-fold desc="___________________________________Methods___________________________________">
-    //deleteTeam
-
-    //returns the ids of all the riders in the listOfRiders
+    /**
+     * This method returns the ids of all the riders in the listOfRiders
+     */
     public int[] getRiderIds () {
         int[] idList = new int[listOfRiders.size()];
         for (int i = 0; i < listOfRiders.size(); i++) {
@@ -54,12 +62,20 @@ public class Team implements Serializable {
         return idList;
     }
 
-    //adds a rider to the listOfRiders
+    /**
+     * This method adds a rider to the listOfRiders
+     *
+     * @param newRider an instance of Rider to add to the team
+     */
     public void addRider(Rider newRider) {
         listOfRiders.add(newRider);
     }
 
-    //removes a rider from the listOfRiders
+    /**
+     * This method removes a rider from the listOfRiders
+     *
+     * @param riderToRemove an instance of Rider to remove from the team
+     */
     public void removeRider(Rider riderToRemove){
         listOfRiders.remove(riderToRemove);
     }

@@ -37,6 +37,14 @@ public class Segment implements Serializable {
         return segmentLocationInStage;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Segment.count = count;
+    }
+
     //</editor-fold>
 
 }

@@ -60,31 +60,46 @@ public class Stage implements Serializable {
         return stageStartTime;
     }
 
+    public static int getCount() {
+        return count;
+    }
+
     public void setStageState(StageState stageState) {
         this.stageState = stageState;
+    }
+
+    public static void setCount(int count) {
+        Stage.count = count;
     }
 
     //</editor-fold>
 
     //<editor-fold desc="___________________________________Methods___________________________________">
-    //deleteStage
-
-    //adds a climb segment or a sprint segment to a stage
+    /**
+     * This method adds a climb segment or a sprint segment to a stage
+     *
+     * @param newSegment an instance of Segment to be added to the stage
+     */
     public void addSegment(Segment newSegment) {
         if (stageSegments.size() == 0){
             stageSegments.add(newSegment);
         } else if (newSegment.getSegmentLocation() >= stageSegments.get(stageSegments.size()-1).getSegmentLocation()) {
             stageSegments.add(stageSegments.size(), newSegment);
         } else {
-            for (int i = 0; i < stageSegments.size(); i++) {
+            int currentSize = stageSegments.size();
+            for (int i = 0; i < currentSize; i++) {
+                System.out.println("Making new segment with id: " + newSegment.getSegmentId());
                 if (newSegment.getSegmentLocation() < stageSegments.get(i).getSegmentLocation()) {
                     stageSegments.add(i, newSegment);
+                    break;
                 }
             }
         }
     }
 
-    //returns the list of segment ids ordered from first to last according to location in stage
+    /**
+     * This method returns the list of segment ids ordered from first to last according to location in stage
+     */
     public int[] getSegmentIds() {
         int[] idList =  new int[stageSegments.size()];
         for (int i=0; i<stageSegments.size(); i++){
@@ -93,12 +108,18 @@ public class Stage implements Serializable {
         return idList;
     }
 
-    //removes a segment from the stage
+    /**
+     * This method removes a segment from the stage
+     *
+     * @param segment an instance of Segment to be removed from the stage
+     */
     public void removeSegmentFromStage(Segment segment){
         stageSegments.remove(segment);
     }
 
-    //returns the number of segments in the stage
+    /**
+     * This method returns the number of segments in the stage
+     */
     public int getNumberOfSegments(){
         return stageSegments.size();
     }

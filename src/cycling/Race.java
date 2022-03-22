@@ -1,9 +1,8 @@
 package cycling;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Race implements Serializable {
+public class Race {
     //<editor-fold desc="__________________________________Atributes__________________________________">
     //static instances counter
     private static int count = 0;
@@ -44,7 +43,6 @@ public class Race implements Serializable {
         return listOfStages;
     }
 
-    public Stage getListOfStages(int i) {return listOfStages.get(i);}
     //</editor-fold>
 
     //<editor-fold desc="___________________________________Methods___________________________________">
@@ -74,7 +72,7 @@ public class Race implements Serializable {
         }
     }
 
-    public int[] getStageIds() {
+    public int[] getStageIds () {
         int[] idList = new int[listOfStages.size()];
         for (int i = 0; i < listOfStages.size(); i++) {
             idList[i] = (listOfStages.get(i).getStageId());
