@@ -3,7 +3,6 @@ import cycling.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
 /**
  * This is a testing interface that checks that all the functions implemented in the CyclingPortal are executing as expected
@@ -12,7 +11,7 @@ import java.util.ArrayList;
  * @author Christian  Wood and Jake Beeson
  * @version 1.0
  */
-public class CyclingPortalInterfaceTestApp {
+public class CyclingPortalInterfaceTestApp2 {
 
 	/**
 	 * Test method.
@@ -20,144 +19,13 @@ public class CyclingPortalInterfaceTestApp {
 	 * @param args not used
 	 */
 	public static void main(String[] args) throws DuplicatedResultException, IDNotRecognisedException, IllegalNameException, InvalidCheckpointsException, InvalidLengthException, InvalidLocationException, InvalidNameException, InvalidStageStateException, InvalidStageTypeException, NameNotRecognisedException, IOException {
-
-		/*//<editor-fold desc="________________________________Testing Setup________________________________
-		System.out.println("The system compiled and started the execution...");
-		CyclingPortalInterface portal = new CyclingPortal();
-
-		System.out.println("");
-
-		//</editor-fold>
-
-		//<editor-fold desc="________________________________Testing Race_________________________________
-		System.out.println("Testing races");
-		System.out.println("---------------");
-
-		//getRaceIds
-		int[] raceIds = portal.getRaceIds();
-		System.out.println("Race Ids of races in system: ");
-		for(int i = 0; i<raceIds.length; i++){
-			System.out.println(portal.viewRaceDetails(i));
-		}
-
-		System.out.println("");
-
-		//createRace
-		int testRaceId1 = portal.createRace("Test_1", "Testing creation of a race");
-		System.out.println("testRaceId1 = "+testRaceId1);
-		int testRaceId2 = portal.createRace("Test_2", "Testing creation of a race");
-		System.out.println("testRaceId1 = "+testRaceId2);
-
-		// InvalidNameException:
-		try {
-			portal.createRace("", "Testing if InvalidNameException is thrown");
-		}catch(Exception InvalidNameException){
-			System.out.println("InvalidNameException checks empty name");}
-
-		try {
-			portal.createRace("contains white space ","Testing if InvalidNameException is thrown");
-		}catch(Exception InvalidNameException){
-			System.out.println("InvalidNameException check white spaces");
-		}
-
-		try {
-			portal.createRace("TestNameGreaterThanThirtyCharacters","Testing if InvalidNameException is thrown");
-		}catch(Exception IllegalNameException){
-			System.out.println("IllegalNameException checks longer than 30 characters");
-		}
-
-		try {
-			portal.createRace("Test_2", "Testing if IllegalNameException is thrown");
-		}catch(Exception IllegalNameException){
-			System.out.println("IllegalNameException checks if name already exists");
-		}
-
-		System.out.println("");
-
-		raceIds = portal.getRaceIds();
-		System.out.println("Race Ids of races in system: ");
-		for(int i = 0; i<raceIds.length; i++){
-			System.out.println("    "+portal.viewRaceDetails(i));
-		}
-
-		System.out.println("");
-
-		// viewRaceDetails
-		String testRaceDetails = portal.viewRaceDetails(testRaceId1);
-		System.out.println("Race details: "+testRaceDetails);
-		try {
-			portal.viewRaceDetails(123456789);
-		}catch(Exception IDNotRecognisedException){
-			System.out.println("IDNotRecognised checks if an id doesn't exist");
-		}
-
-		System.out.println("");
-
-		// ***STILL TO DO*** removeRaceById
-		// getNumberOfStages
-		int numberOfTestStages1 = portal.getNumberOfStages(testRaceId1);
-		System.out.println("Number of stages in Test = "+numberOfTestStages1);
-
-		// addStageToRace
-		System.out.println("Adding a new stage to race");
-		LocalDateTime testStageTime = LocalDateTime.of(2022,03,25,12,40,0);
-		LocalDateTime testStageTime1 = LocalDateTime.of(2022,03,25,12,30,0);
-		int testStageId = portal.addStageToRace(testRaceId1, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
-		int testStageId1 = portal.addStageToRace(testRaceId1, "testStage1","first stage of test race",6.5, testStageTime1,StageType.FLAT);
-		// int testStageId2 = portal.addStageToRace(testRaceId1, "testStage","first stage of test race",5.5, testStageTime,StageType.FLAT);
-
-		int numberOfTestStages2 = portal.getNumberOfStages(testRaceId1);
-		System.out.println("Number of stages in Test = "+numberOfTestStages2);
-
-		*//* InvalidLengthException
-		portal.addStageToRace(testRaceId1, "testStage","first stage of test race",4.5, testStageTime,StageType.FLAT);
-		 *//*
-		// getRaceStages
-		int[] stagesInTestRace = portal.getRaceStages(testRaceId1);
-		System.out.println("Stage Ids of stages in test race: ");
-		for(int i = 0; i<stagesInTestRace.length; i++){System.out.println("    Stage "+i+"'s Id: "+stagesInTestRace[i]);}
-
-		System.out.println("");
-
-		//</editor-fold>
-
-
-		//<editor-fold desc="________________________________Testing Stage________________________________
-		System.out.println("Testing stages");
-		System.out.println("---------------");
-		// getStageLength *** when does stage id get added to stage list ??? - unable to find stage(two stage lists)
-		double testStageLength = portal.getStageLength(testStageId);
-		System.out.println("test stage length = "+testStageLength);
-		// ***STILL TO DO*** removeStageById
-		// addCategorizedClimbToStage
-		int testSegmentId = portal.addCategorizedClimbToStage(testStageId,1.0,SegmentType.C4,1.2,1.0);
-
-		*//* InvalidLocationException
-		int testSegmentId = portal.addCategorizedClimbToStage(testStageId,3.0,SegmentType.C4,1.2,3.0);
-		int testSegmentId = portal.addCategorizedClimbToStage(testStageId,-1.0,SegmentType.C4,1.2,1.0);
-		InvalidStageStateException when does this get set ?
-		InvalidStageTypeException
-		int testSegmentId = portal.addCategorizedClimbToStage(testStageId,1.0,SegmentType.TT,1.2,1.0);
-		 *//*
-		// ***STILL TO DO*** removeSegment
-		// concludeStagePreparation
-		portal.concludeStagePreparation(testStageId);
-		//System.out.println("if InvalidStageStateException is thrown next previous works");
-		//portal.concludeStagePreparation(testStageId);
-		// getStageSegments
-		int[] testSegmentIds = portal.getStageSegments(testStageId);
-		System.out.println("Segment Ids of segments in test segment: ");
-		for(int i = 0; i<testSegmentIds.length; i++){System.out.println("Stage "+i+"'s segment Id: "+testSegmentIds[i]);}
-
-		//</editor-fold>
-*/
-		// Creating teams
-
+		// stage 5 neeed to duplicate from stage 3 then delete.
 		System.out.println("The system compiled and started the execution...");
 		CyclingPortalInterface portal = new CyclingPortal();
 
 		int team1Id = portal.createTeam("Team1","testing team1");
 		int team2Id = portal.createTeam("Team2","testing team2");
+		// team to be removed
 		int team3Id = portal.createTeam("Team3","testing team3");
 		System.out.println("Created teams");
 
@@ -168,35 +36,40 @@ public class CyclingPortalInterfaceTestApp {
 		int otherRider1Id = portal.createRider(team1Id, "otherRider1",2001);
 		int otherRider2Id = portal.createRider(team2Id, "otherRider2",2002);
 		int otherRider3Id = portal.createRider(team3Id, "otherRider3",2003);
+		// rider to be removed
 		int otherRider4Id = portal.createRider(team3Id, "otherRider4",2004);
 		System.out.println("Created riders");
 
-		//Removing a rider
-		portal.removeRider(otherRider4Id);
+
+		// get team Ids
+		int[] teamIds = portal.getTeams();
+		assert teamIds.length==2;
+		// get riderIds for team 1
+		int[] riderIds = portal.getTeamRiders(team1Id);
+		assert riderIds.length == 2;
+
 
 		// Creating races
 		int race1 = portal.createRace("Race1","what is the race?");
-		int race2 = portal.createRace("Race2","what is the race?");
-		int race3 = portal.createRace("Race3","what is the race?");
+		int race2 = portal.createRace("Race2","what is the race?"); // race to be removed (must add results)
+		int race3 = portal.createRace("Race3","what is the race?"); // race to be removed
 		System.out.println("Created Races");
 
-		// Removing Races
-		portal.removeRaceById(race2);
-		portal.removeRaceByName("Race3");
-		System.out.println("Removed races");
 
 		// Adding stages to race
+		// setting times
 		LocalDateTime testStageTime1 = LocalDateTime.of(2022,03,25,12,0,0);
-		int stage1 = portal.addStageToRace(race1,"stage1","flat stage",6,testStageTime1,StageType.FLAT);
-
 		LocalDateTime testStageTime2 = LocalDateTime.of(2022,03,26,12,0,0);
-		int stage2 = portal.addStageToRace(race1,"stage2","medium mountain stage",6,testStageTime2,StageType.MEDIUM_MOUNTAIN);
-
 		LocalDateTime testStageTime3 = LocalDateTime.of(2022,03,27,12,0,0);
-		int stage3 = portal.addStageToRace(race1,"stage3","High mountain stage",6,testStageTime2,StageType.HIGH_MOUNTAIN);
-
 		LocalDateTime testStageTime4 = LocalDateTime.of(2022,03,28,12,0,0);
+		LocalDateTime testStageTime5 = LocalDateTime.of(2022,03,28,12,0,0);
+
+		int stage1 = portal.addStageToRace(race1,"stage1","flat stage",6,testStageTime1,StageType.FLAT);
+		int stage2 = portal.addStageToRace(race1,"stage2","medium mountain stage",6,testStageTime2,StageType.MEDIUM_MOUNTAIN);
+		int stage3 = portal.addStageToRace(race1,"stage3","High mountain stage",6,testStageTime2,StageType.HIGH_MOUNTAIN);
 		int stage4 = portal.addStageToRace(race1,"stage4","time trial mountain stage",6,testStageTime2,StageType.TT);
+		// stage to be removed (add segments)
+		int stage5 = portal.addStageToRace(race1,"stage5","time trial mountain stage",6,testStageTime2,StageType.FLAT);
 		System.out.println("added stages");
 
 		// Adding segments to stage
@@ -205,21 +78,30 @@ public class CyclingPortalInterfaceTestApp {
 		int segmentId3 = portal.addCategorizedClimbToStage(stage3, 3.0,SegmentType.C3,1.0,1.0);
 		int segmentId4 = portal.addCategorizedClimbToStage(stage3, 4.0,SegmentType.C4,1.0,1.0);
 		int segmentId5 = portal.addCategorizedClimbToStage(stage3, 5.0,SegmentType.HC,1.0,1.0);
-		// !!! can add sprint with addCategorizedClimbToStage (ask if its up the user)
 		int segmentId6 = portal.addIntermediateSprintToStage(stage3, 2.5);
-		int segmentId7 = portal.addIntermediateSprintToStage(stage3, 3.5);
-		int[] testSegmentIds = portal.getStageSegments(stage3);
-		System.out.println("Segment Ids of segments in stage: "); // !!! unordered
-		for(int i = 0; i<testSegmentIds.length; i++){System.out.println(+testSegmentIds[i]);}
+
+		// segments that would be removed
+		int segmentId7 = portal.addIntermediateSprintToStage(stage5, 3.5);
+		int segmentId8 = portal.addIntermediateSprintToStage(stage3, 3.5);
 		System.out.println("added segments");
+
+		// Removing segment
+		portal.removeSegment(segmentId8);
+
+		// Conclude Prep
+		portal.concludeStagePreparation(stage1);
+		portal.concludeStagePreparation(stage2);
+		portal.concludeStagePreparation(stage3);
+		portal.concludeStagePreparation(stage4);
+		portal.concludeStagePreparation(stage5);
+
+		// checking order of segments
+		int[] testSegmentIds = portal.getStageSegments(stage3);
+		System.out.println("Segment Ids of segments in stage: ");
+		for(int i = 0; i<testSegmentIds.length; i++){System.out.println(+testSegmentIds[i]);}
 
 		//Getting Stage Length
 		assert (portal.getStageLength(stage1))==6.0;
-
-		// Removing A Stage
-		portal.removeStageById(stage1);
-		// Removing A segment
-		portal.removeSegment(segmentId7);
 
 		// Viewing Race Details
 		String raceDetails = portal.viewRaceDetails(race1);
@@ -230,8 +112,6 @@ public class CyclingPortalInterfaceTestApp {
       System.out.println("Segment Ids of segments in stage: "); // !!! unordered
       for(int i = 0; i<testSegmentIds.length; i++){System.out.println(+testSegmentIds[i]);}*/
 
-		// Conclude Prep
-		portal.concludeStagePreparation(stage3);
 
 		// Simulated Times For Rider1 On A Stage
 		LocalTime startTime = LocalTime.of(12,00);
@@ -305,8 +185,20 @@ public class CyclingPortalInterfaceTestApp {
 		//Removing riders results
 		portal.deleteRiderResultsInStage(stage3,otherRider1Id);
 
-		// portal.saveCyclingPortal("testingSer.ser");
-		// single rider results
+		// Removing Races
+		portal.removeRaceById(race2); // add results
+		portal.removeRaceByName("Race3");
+		System.out.println("Removed races");
+
+		//Removing a rider
+		portal.removeRider(otherRider4Id);
+		//Removing a team
+		portal.removeTeam(team3Id);
+		// removing stage
+		portal.removeStageById(stage5);
+
+
+		// stage results
 		LocalTime[] riderResults = portal.getRiderResultsInStage(stage3,rider1Id);
 		System.out.println("Riders results: ");
 		for(int i = 0; i<riderResults.length; i++){System.out.println(riderResults[i]);}
@@ -314,9 +206,6 @@ public class CyclingPortalInterfaceTestApp {
 		LocalTime ridersAdjustedTime = portal.getRiderAdjustedElapsedTimeInStage(stage3,rider1Id);
 		System.out.println("Riders adjusted time: "+ridersAdjustedTime);
 
-		portal.eraseCyclingPortal();
-
-		// Stage results
 		int[] ridersRank = portal.getRidersRankInStage(stage3);
 		System.out.println("Riders rank: ");
 		for(int i = 0; i<ridersRank.length; i++){System.out.println("RiderId: "+ridersRank[i]);}
@@ -325,13 +214,14 @@ public class CyclingPortalInterfaceTestApp {
 		System.out.println("Riders adjusted times: ");
 		for(int i = 0; i<ridersAdjustedRank.length; i++){System.out.println("Adjusted time: "+ridersAdjustedRank[i]);}
 
-		int[] ridersPoints = portal.getRidersPointsInRace(stage3);
+		// race results
+		int[] ridersPoints = portal.getRidersPointsInRace(race1);
 		System.out.println("Riders Points(sorted by elapsed time): ");
 		for(int i = 0; i<ridersPoints.length; i++){System.out.println("Points: "+ridersPoints[i]);}
 
-		int[] ridersMountainPoints = portal.getRidersMountainPointsInRace(stage3);
+		/*int[] ridersMountainPoints = portal.getRidersMountainPointsInRace(race1);
 		System.out.println("Riders Mountain Points (sorted by finish time): ");
-		for(int i = 0; i<ridersMountainPoints.length; i++){System.out.println("M Points: "+ridersMountainPoints[i]);}
+		for(int i = 0; i<ridersMountainPoints.length; i++){System.out.println("M Points: "+ridersMountainPoints[i]);}*/
 
 
 		// Race results

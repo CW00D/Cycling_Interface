@@ -1,6 +1,8 @@
 package cycling;
 
-public class Segment{
+import java.io.Serializable;
+
+public class Segment implements Serializable {
     //<editor-fold desc="__________________________________Atributes__________________________________">
     //static instances counter
     private static int count = 0;
@@ -33,6 +35,14 @@ public class Segment{
 
     public Double getSegmentLocation(){
         return segmentLocationInStage;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        Segment.count = count;
     }
 
     //</editor-fold>

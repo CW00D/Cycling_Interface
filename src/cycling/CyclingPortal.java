@@ -1,8 +1,6 @@
 package cycling;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -20,6 +18,9 @@ public class CyclingPortal implements CyclingPortalInterface {
     private ArrayList<Race> raceList = new ArrayList<Race>();
     //teams - list of all teams
     private ArrayList<Team> teamList = new ArrayList<Team>();
+
+    //holds the id counters for the objects
+    private ArrayList<Integer> portalIds = new ArrayList<Integer>();
 
 
     //</editor-fold>
@@ -51,6 +52,7 @@ public class CyclingPortal implements CyclingPortalInterface {
         //creating a new race
         Race newRace = new Race(name, description);
         raceList.add(newRace);
+        assert raceList.size() != 0 : "Race not added";
         return newRace.getRaceId();
     }
 
@@ -95,19 +97,19 @@ public class CyclingPortal implements CyclingPortalInterface {
         //removing race and all related stages segments, etc.
         for (Stage stage : raceForGivenId.getListOfStages()){
             for (Segment segment : stage.getStageSegments()){
-                segment = null;
+                assert segment == null : "associated segment not removed ";
             }
             for (Team team : teamList){
                 for (Rider rider : team.getListOfRiders()){
                     rider.removeResultsForStage(stage.getStageId());
                 }
             }
-            stage = null;
+            assert stage == null : "associated stage not removed ";
         }
-
         raceList.remove(raceForGivenId);
-        raceForGivenId = null;
-
+        for (Race race : raceList){
+            assert race != raceForGivenId : "race not removed ";
+        }
     }
 
     @Override
@@ -605,18 +607,21 @@ public class CyclingPortal implements CyclingPortalInterface {
         ArrayList<Rider> ridersByElapsedTime = new ArrayList<Rider>();
         for (Team team : teamList){
             for (Rider rider : team.getListOfRiders()){
-                if (ridersByElapsedTime.size() == 0){
-                    ridersByElapsedTime.add(rider);
-                } else if (rider.getElapsedTimeForGivenStage(stageId).compareTo(ridersByElapsedTime.get(ridersByElapsedTime.size()-1).getAdjustedElapsedTime(stageId))>=0) {
-                    ridersByElapsedTime.add(ridersByElapsedTime.size(), rider);
-                }else{
-                    for (int i=0;i<ridersByElapsedTime.size();i++) {
-                        if (rider.getElapsedTimeForGivenStage(stageId).compareTo(ridersByElapsedTime.get(i).getElapsedTimeForGivenStage(stageId))==-1){
-                            ridersByElapsedTime.add(i, rider);
-                            break;
+                if (rider.hasResult(stageForGivenId) == true){
+                    if (ridersByElapsedTime.size() == 0){
+                        ridersByElapsedTime.add(rider);
+                    } else if (rider.getElapsedTimeForGivenStage(stageId).compareTo(ridersByElapsedTime.get(ridersByElapsedTime.size()-1).getElapsedTimeForGivenStage(stageId))>=0) {
+                        ridersByElapsedTime.add(ridersByElapsedTime.size(), rider);
+                    }else{
+                        for (int i=0;i<ridersByElapsedTime.size();i++) {
+                            if (rider.getElapsedTimeForGivenStage(stageId).compareTo(ridersByElapsedTime.get(i).getElapsedTimeForGivenStage(stageId))==-1){
+                                ridersByElapsedTime.add(i, rider);
+                                break;
+                            }
                         }
                     }
                 }
+
             }
         }
         for (int i=0;i<ridersByElapsedTime.size()-1;i++){
@@ -969,8 +974,26 @@ public class CyclingPortal implements CyclingPortalInterface {
             for (Rider rider : team.getListOfRiders()) {
                 LocalTime totalElapsedTime = LocalTime.of(0, 0, 0, 0);
                 for (Stage stage : raceForGivenId.getListOfStages()){
-                    LocalTime elapsedTime = rider.calculateElapsedTimeForGivenStage(stage.getStageId());
-                    totalElapsedTime.plusHours(elapsedTime.getHour()).plusMinutes(elapsedTime.getMinute()).plusSeconds(elapsedTime.getSecond());//needs continuing
+                    if (rider.hasResult(stage)) {
+                        LocalTime elapsedTime = rider.calculateElapsedTimeForGivenStage(stage.getStageId());
+                        totalElapsedTime.plusHours(elapsedTime.getHour()).plusMinutes(elapsedTime.getMinute()).plusSeconds(elapsedTime.getSecond()).plusNanos(elapsedTime.getNano());
+                        rider.addTotalElapsedTimeToRace(raceId, totalElapsedTime);
+                    } else {
+                        int[] emptyList = new int[0];
+                        return emptyList;
+                    }
+                }
+                if (riderOrderForRace.size() == 0){
+                    riderOrderForRace.add(rider);
+                } else if (rider.getTotalElapsedTimeForGivenRace(raceId).compareTo(riderOrderForRace.get(riderOrderForRace.size()-1).getTotalElapsedTimeForGivenRace(raceId))>=0) {
+                    riderOrderForRace.add(riderOrderForRace.size(), rider);
+                }else{
+                    for (int i=0;i<riderOrderForRace.size();i++) {
+                        if (rider.getTotalElapsedTimeForGivenRace(raceId).compareTo(riderOrderForRace.get(i).getTotalElapsedTimeForGivenRace(raceId))==-1){
+                            riderOrderForRace.add(i, rider);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -1015,8 +1038,42 @@ public class CyclingPortal implements CyclingPortalInterface {
             throw new IDNotRecognisedException();
         }
 
+        //finding the order of the riders in the race
+        //needs to be ordered by total ADJUSTED elapsed time
+        ArrayList<Rider> riderOrderForRace = new ArrayList<>();
+        for (Team team : teamList) {
+            for (Rider rider : team.getListOfRiders()) {
+                LocalTime totalElapsedTime = LocalTime.of(0, 0, 0, 0);
+                for (Stage stage : raceForGivenId.getListOfStages()){
+                    if (rider.hasResult(stage)) {
+                        LocalTime elapsedTime = rider.calculateElapsedTimeForGivenStage(stage.getStageId());
+                        totalElapsedTime.plusHours(elapsedTime.getHour()).plusMinutes(elapsedTime.getMinute()).plusSeconds(elapsedTime.getSecond()).plusNanos(elapsedTime.getNano());
+                        rider.addTotalElapsedTimeToRace(raceId, totalElapsedTime);
+                    } else {
+                        int[] emptyList = new int[0];
+                        return emptyList;
+                    }
+                }
+                if (riderOrderForRace.size() == 0){
+                    riderOrderForRace.add(rider);
+                } else if (rider.getTotalElapsedTimeForGivenRace(raceId).compareTo(riderOrderForRace.get(riderOrderForRace.size()-1).getTotalElapsedTimeForGivenRace(raceId))>=0) {
+                    riderOrderForRace.add(riderOrderForRace.size(), rider);
+                }else{
+                    for (int i=0;i<riderOrderForRace.size();i++) {
+                        if (rider.getTotalElapsedTimeForGivenRace(raceId).compareTo(riderOrderForRace.get(i).getTotalElapsedTimeForGivenRace(raceId))==-1){
+                            riderOrderForRace.add(i, rider);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
-        return null;
+        int[] returnArray = new int[riderOrderForRace.size()];
+        for (int i=0;i<riderOrderForRace.size();i++){
+            returnArray[i] = riderOrderForRace.get(i).getRiderId();
+        }
+        return returnArray;
     }//TO DO
 
     @Override
@@ -1059,29 +1116,82 @@ public class CyclingPortal implements CyclingPortalInterface {
 
     //</editor-fold>
 
-    //<editor-fold desc="_________________________________Serialization_______________________________#TO DO">
+    //<editor-fold desc="_________________________________Serialization_______________________________">
 
     @Override
     public void eraseCyclingPortal() {
-        // TODO Auto-generated method stub
+        teamList.clear();
+        assert teamList.size()==0 : "teamList not clear";
+        raceList.clear();
+        assert raceList.size()==0 : "raceList not clear";
 
-    }//TO DO
+        //reset the current ids
+        Team.setCount(0);
+        Rider.setCount(0);
+        Race.setCount(0);
+        Stage.setCount(0);
+        Segment.setCount(0);
+
+        if (portalIds.size()!= 0){
+            portalIds.set(0,0);
+            portalIds.set(1,0);
+            portalIds.set(2,0);
+            portalIds.set(3,0);
+            portalIds.set(4,0);}
+
+        for (int i=0; i<portalIds.size(); i++){assert portalIds.get(i) == 0 : "Team count not reset";}
+
+        assert Team.getCount() == 0 : "Team count not reset";
+        assert Rider.getCount() == 0 : "Rider count not reset";
+        assert Race.getCount() == 0 : "Race count not reset";
+        assert Stage.getCount() == 0 : "Stage count not reset";
+        assert Segment.getCount() == 0 : "Segment count not reset";
+
+    }
 
     @Override
     public void saveCyclingPortal(String filename) throws IOException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+            portalIds.add(0, Team.getCount());
+            portalIds.add(1, Rider.getCount());
+            portalIds.add(2, Race.getCount());
+            portalIds.add(3, Stage.getCount());
+            portalIds.add(4, Segment.getCount());
+
             out.writeObject(raceList);
             out.writeObject(teamList);
+            out.writeObject(portalIds);
+            out.close();
             System.out.println("Saved in: " + filename);
+        } catch (IOException exception) {
+            throw exception;
         }
-
-    }//Finished
+    }
 
     @Override
     public void loadCyclingPortal(String filename) throws IOException, ClassNotFoundException {
-        // TODO Auto-generated method stub
+        try (ObjectInputStream in = new ObjectInputStream(new
+                FileInputStream(filename))) {
+            raceList = (ArrayList<Race>)in.readObject();
+            System.out.println(raceList);
+            teamList = (ArrayList<Team>)in.readObject();
+            System.out.println(teamList);
+            portalIds = (ArrayList<Integer>)in.readObject();
+            System.out.println(portalIds);
+            in.close();
 
-    }//TO DO
+            //reset the current ids
+            Team.setCount(portalIds.get(0));
+            Rider.setCount(portalIds.get(1));
+            Race.setCount(portalIds.get(2));
+            Stage.setCount(portalIds.get(3));
+            Segment.setCount(portalIds.get(4));
+        } catch (IOException exception) {
+            throw  exception;
+        } catch (ClassNotFoundException exception) {
+            throw exception;
+        }
+    }
 
     //</editor-fold>
 
