@@ -241,7 +241,7 @@ public class CyclingPortalInterfaceTestApp2 {
 
 		// Serialisation
 		// portal.eraseCyclingPortal();
-		// portal.saveCyclingPortal("filename");
+		portal.saveCyclingPortal("filename");
 		// portal.loadCyclingPortal("testingSer.ser");
 	}
 
