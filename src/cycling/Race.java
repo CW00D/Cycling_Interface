@@ -15,7 +15,6 @@ public class Race implements Serializable {
     private String raceDescription;
     //list of race's stages
     private ArrayList<Stage> listOfStages = new ArrayList<Stage>();
-    private ArrayList<Stage> listOfStages2 = new ArrayList<Stage>();
 
     //</editor-fold>
 
