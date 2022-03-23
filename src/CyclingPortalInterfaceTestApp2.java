@@ -121,7 +121,12 @@ public class CyclingPortalInterfaceTestApp2 {
 		LocalTime segTime3 = LocalTime.of(12,15);
 		LocalTime segTime4 = LocalTime.of(12,20);
 		LocalTime segTime5 = LocalTime.of(12,25);
-		LocalTime finishTime = LocalTime.of(12,25);
+		LocalTime finishTime = LocalTime.of(12,39,59,6);
+
+		LocalTime[] ridersOtherTimes = new LocalTime[]{
+				startTime,
+				finishTime
+		};
 		// assume order
 		LocalTime[] ridersTimes = new LocalTime[]{
 				startTime,
@@ -135,6 +140,9 @@ public class CyclingPortalInterfaceTestApp2 {
 		};
 		// Registering Riders Results
 		portal.registerRiderResultsInStage(stage3,rider1Id,ridersTimes);
+		portal.registerRiderResultsInStage(stage1,rider1Id,ridersOtherTimes);
+		portal.registerRiderResultsInStage(stage2,rider1Id,ridersOtherTimes);
+		portal.registerRiderResultsInStage(stage4,rider1Id,ridersOtherTimes);
 
 		// Simulated Times For Rider2 On A Stage
 		startTime = LocalTime.of(12, 00);
@@ -156,8 +164,15 @@ public class CyclingPortalInterfaceTestApp2 {
 				segTime5,
 				finishTime
 		};
+		ridersOtherTimes = new LocalTime[]{
+				startTime,
+				finishTime
+		};
 		// Registering Riders Results
 		portal.registerRiderResultsInStage(stage3,rider2Id,ridersTimes);
+		portal.registerRiderResultsInStage(stage1,rider2Id,ridersOtherTimes);
+		portal.registerRiderResultsInStage(stage2,rider2Id,ridersOtherTimes);
+		portal.registerRiderResultsInStage(stage4,rider2Id,ridersOtherTimes);
 
 		// Simulated Times For Rider to be deleted On A Stage
 		startTime = LocalTime.of(12, 00);
@@ -214,14 +229,14 @@ public class CyclingPortalInterfaceTestApp2 {
 		System.out.println("Riders adjusted times: ");
 		for(int i = 0; i<ridersAdjustedRank.length; i++){System.out.println("Adjusted time: "+ridersAdjustedRank[i]);}
 
-		// race results
+		// riders race results
 		int[] ridersPoints = portal.getRidersPointsInRace(race1);
 		System.out.println("Riders Points(sorted by elapsed time): ");
 		for(int i = 0; i<ridersPoints.length; i++){System.out.println("Points: "+ridersPoints[i]);}
 
-		/*int[] ridersMountainPoints = portal.getRidersMountainPointsInRace(race1);
+		int[] ridersMountainPoints = portal.getRidersMountainPointsInRace(race1);
 		System.out.println("Riders Mountain Points (sorted by finish time): ");
-		for(int i = 0; i<ridersMountainPoints.length; i++){System.out.println("M Points: "+ridersMountainPoints[i]);}*/
+		for(int i = 0; i<ridersMountainPoints.length; i++){System.out.println("M Points: "+ridersMountainPoints[i]);}
 
 
 		// Race results
@@ -241,7 +256,7 @@ public class CyclingPortalInterfaceTestApp2 {
 
 		// Serialisation
 		// portal.eraseCyclingPortal();
-		portal.saveCyclingPortal("filename");
+		// portal.saveCyclingPortal("filename");
 		// portal.loadCyclingPortal("testingSer.ser");
 	}
 
