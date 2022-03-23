@@ -108,9 +108,9 @@ public class CyclingPortalInterfaceTestApp2 {
 		System.out.println("Race details: "+raceDetails);
 
 		// Getting Segment Ids From Race
-      /*int[] testSegmentIds = portal.getStageSegments(stage3);
-      System.out.println("Segment Ids of segments in stage: "); // !!! unordered
-      for(int i = 0; i<testSegmentIds.length; i++){System.out.println(+testSegmentIds[i]);}*/
+		/*int[] testSegmentId2s = portal.getStageSegments(stage3);
+		System.out.println("Segment Ids of segments in stage: "); // !!! unordered
+		for(int i = 0; i<testSegmentIds.length; i++){System.out.println(+testSegmentIds[i]);}*/
 
 
 		// Simulated Times For Rider1 On A Stage
