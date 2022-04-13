@@ -1,6 +1,5 @@
 # __Cycling Interface__
 
-## Introduction
 This is the backend of a cycling system
 
 **Author:** Christian Wood  
